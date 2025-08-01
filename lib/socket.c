@@ -1302,6 +1302,14 @@ rpc_auth_needs_refresh(struct rpc_context *rpc)
 	}
 
         /*
+         * If auth type is AzAuthNone, we should not do a token refresh as it is
+         * not required.
+         */
+        if (strcmp(rpc->auth_context.auth_type, "AzAuthNone") == 0) {
+                return FALSE;
+        }
+
+        /*
          * Once marked "needs refresh" return true till it's reset.
          * This must be placed before the is_authorized check below, as on
          * expiry we set is_authorized to FALSE and needs_refresh to TRUE.
