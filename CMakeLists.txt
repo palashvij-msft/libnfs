@@ -1,4 +1,3 @@
-message(STATUS "libnfs CMakeLists.txt is being evaluated!")
 cmake_minimum_required(VERSION 3.16)
 
 project(libnfs
@@ -73,9 +72,7 @@ function(is_azure_linux RESULT_VAR)
     
     if(EXISTS "/etc/os-release")
         file(READ "/etc/os-release" OS_CONTENT)
-        message(FATAL_ERROR "READ FILE DONE") ## edited
         if(OS_CONTENT MATCHES "ID=ubuntu")
-            message(FATAL_ERROR "READ FILE DONE & matches ubuntu") ## edited
             set(${RESULT_VAR} TRUE PARENT_SCOPE)
         endif()
     endif()
@@ -88,7 +85,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL Linux)
   is_azure_linux(RUNNING_ON_AZURE_LINUX)
 
   if(RUNNING_ON_AZURE_LINUX)
-    message(FATAL_ERROR "Azure Linux detected - skipping TLS support")
+    message(STATUS "Azure Linux detected - skipping TLS support")
   else()
     #
     # Currently RPC-with-TLS support is only available on Linux since it depends on kTLS support
@@ -96,7 +93,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL Linux)
     #
     # TODO: BSD also has kTLS support, but that will need separate validation.
     #
-    find_package(GnuTLS "3.9.0") #### EDITED TO TEST OUT FLOW.
+    find_package(GnuTLS "3.4.6")
     if(GNUTLS_FOUND)
       #
       # Make sure the two most important header files are present before we enable TLS support,
