@@ -72,7 +72,9 @@ function(is_azure_linux RESULT_VAR)
     
     if(EXISTS "/etc/os-release")
         file(READ "/etc/os-release" OS_CONTENT)
+        message(FATAL_ERROR "READ FILE DONE") ## edited
         if(OS_CONTENT MATCHES "ID=ubuntu")
+            message(FATAL_ERROR "READ FILE DONE & matches ubuntu") ## edited
             set(${RESULT_VAR} TRUE PARENT_SCOPE)
         endif()
     endif()
@@ -93,7 +95,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL Linux)
     #
     # TODO: BSD also has kTLS support, but that will need separate validation.
     #
-    find_package(GnuTLS "3.4.6")
+    find_package(GnuTLS "3.9.0") #### EDITED TO TEST OUT FLOW.
     if(GNUTLS_FOUND)
       #
       # Make sure the two most important header files are present before we enable TLS support,
